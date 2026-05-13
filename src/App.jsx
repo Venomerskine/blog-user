@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-function SignUp() {
+function Signup() {
   return (
     <>
       <form>
@@ -34,10 +34,19 @@ function Login () {
 }
 
 function App() {
-  
+
+  const [isLogin, setIsLogin] = useState(true);
+
+  function togleView() {
+    setIsLogin(prev => !prev)
+  }
   return (
     <>
-      <Login />
+      {isLogin ? <Login/> : <Signup/>}
+
+      <button onClick={togleView}>
+        {isLogin ? "Switch to signup" : "Switch to login"}
+      </button>
        
     </>
   )

@@ -1,54 +1,27 @@
-import { useEffect, useState } from 'react'
+// import { useState } from 'react'
 import './App.css'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Dashboard from './pages/Dashboard'
+import { Route, Routes } from 'react-router-dom'
 
-function Signup() {
-  return (
-    <>
-      <form>
-        <label for = "firstName">First Name</label>
-        <input name='firstName' id='firstName'></input>
 
-        <label for = "lastName">Last Name</label>
-        <input name='lastName' id='lastName'></input>
-
-        <label for = "email">Email</label>
-        <input name='email' id='email'></input>
-
-        <label for = "password">Password</label>
-        <input name='password' id='password'></input>
-      </form>
-    </>
-  )
-}
-
-function Login () {
-
-  return (
-    <>
-      <form>
-        <label>Email: </label>
-        <input type='email'></input>
-      </form>
-    </>
-  )
-}
 
 function App() {
 
-  const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(true);
 
-  function togleView() {
-    setIsLogin(prev => !prev)
-  }
+  // function togleView() {
+  //   setIsLogin(prev => !prev)
+  // }
   return (
-    <>
-      {isLogin ? <Login/> : <Signup/>}
+    <Routes>
 
-      <button onClick={togleView}>
-        {isLogin ? "Switch to signup" : "Switch to login"}
-      </button>
-       
-    </>
+    <Route path='/login' element={<Login/>}/>
+    <Route path='/signup' element={<Signup/>}/>
+    <Route path='/dashboard' element={<Dashboard/>} />
+
+    </Routes>
   )
 }
 

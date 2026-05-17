@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
     const [isAuth, setIsAuth] = useState(null);
+    const [posts, setPosts] = useState([])
     const navigate = useNavigate()
 
+    // Verification Effect
     useEffect (() => {
         const verifyUSer = async () => {
             const token = localStorage.getItem("token");
@@ -34,7 +36,7 @@ function Dashboard() {
                     localStorage.removeItem("token");
                     navigate("/login")
                 }
-                
+
             } catch (err) {
                 setIsAuth(false)
                 navigate("/login")
@@ -44,8 +46,10 @@ function Dashboard() {
 
         verifyUSer();
 
-    }, [])
+    }, [navigate])
 
+
+// Fetch Posts Function
     const getAllPosts = async () => {
 
         try {
@@ -66,7 +70,9 @@ function Dashboard() {
 
             const data = await response.json()
 
-            console.log("Posts in dashboard get : ", data)
+            setPosts(data.posts)
+
+            console.log("Posts in dashboard get : ", data.posts)
 
         } catch (err) {
             console.log("Error fetching posts: ", err)
@@ -77,8 +83,10 @@ function Dashboard() {
 
 
     useEffect(() => {
-        getAllPosts
-    }, []);
+        if(isAuth === true) {
+            getAllPosts();
+        }
+    }, [isAuth])
 
 
     if (isAuth === null ) return <p>Cheching auth...</p>
@@ -86,6 +94,22 @@ function Dashboard() {
     return(
         <>
             <h1>Dashboard</h1>
+            <h2>Recent Posts</h2>
+
+            {posts.length === 0 ? (
+                <p>No posts found. </p>
+            ) : (
+                <div className="posts container">
+                    {posts.map((post) => (
+                        <div
+                        key={post._id || post.id}        
+                        >
+                            <h3>{post.title}</h3>
+                            <p>{post.content}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
         </>
     )
 }

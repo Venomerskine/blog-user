@@ -29,6 +29,12 @@ function Dashboard() {
                 } else {
                     setIsAuth(true)
                 }
+
+                if (res.status === 403) {
+                    localStorage.removeItem("token");
+                    navigate("/login")
+                }
+                
             } catch (err) {
                 setIsAuth(false)
                 navigate("/login")
@@ -73,6 +79,7 @@ function Dashboard() {
     useEffect(() => {
         getAllPosts
     }, []);
+
 
     if (isAuth === null ) return <p>Cheching auth...</p>
 
